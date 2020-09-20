@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #Local Apps
     'users',
+    'debtors',
     #DRF
     'rest_framework',
     'rest_framework.authtoken',
