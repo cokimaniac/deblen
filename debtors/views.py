@@ -5,6 +5,7 @@ Debtor views.
 #drf
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -44,3 +45,11 @@ class DebtorView(APIView):
 		return Response({
 			"error": serializer.errors
 		})
+
+class DebtorDetailView(RetrieveAPIView):
+	"""
+	Retrieve debtor view.
+	"""
+	serializer_class = DebtorSerializer
+	queryset = Debtor.objects.all()
+	permission_classes = [IsAuthenticated, ]

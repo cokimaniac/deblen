@@ -29,4 +29,4 @@ class Debtor(models.Model):
 	REQUIRED_FIELDS = ["full_name", "phone_number"]
 
 	def __str__(self):
-		return self.account.username
+		return self.full_name
