@@ -23,16 +23,20 @@ from users.serializers import AccountSerializer, SignupAccountSerializer
 from users.models import Account
 
 class AccountViewSet(ModelViewSet):
+	"""
+	Account View Set
+	"""
 	permission_classes = [IsAuthenticated,]
 	serializer_class = AccountSerializer
 	queryset = Account.objects.all()
 	lookup_field = 'username'
-
-	def create(self, request, *args, **kwargs):
-		return Response({"error": "Method POST is not allowed!"}, status=HTTP_401_UNAUTHORIZED)
+	http_method_names = ["get", "patch", "put"]
 
 @api_view(["POST"])
 def signupAccount(request):
+	"""
+	Signup account view.
+	"""
 	serializer = SignupAccountSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
@@ -42,7 +46,7 @@ def signupAccount(request):
 
 class LoginView(APIView):
 	"""
-	User lovin view.
+	User account login view.
 	"""
 	def post(self, request):
 		email = request.data.get("email")
