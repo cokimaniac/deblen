@@ -12,9 +12,13 @@ from rest_framework.routers import SimpleRouter
 from users import views
 
 urlpatterns = [
-    path(
-        route="",
-        name="users",
-        view=views.AccountView.as_view()
-    )
+	path(
+		route="signin",
+		name="signin",
+		view=views.signupAccount
+	)
 ]
+
+router = SimpleRouter()
+router.register("", views.AccountViewSet)
+urlpatterns += router.urls
