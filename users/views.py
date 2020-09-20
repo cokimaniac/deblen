@@ -11,7 +11,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework.status import HTTP_401_UNAUTHORIZED
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
@@ -30,7 +30,14 @@ class AccountViewSet(ModelViewSet):
 	serializer_class = AccountSerializer
 	queryset = Account.objects.all()
 	lookup_field = 'username'
-	http_method_names = ["get", "patch", "put"]
+	http_method_names = ["get", "patch"]
+
+	def partial_update(self, request, *args, **kwargs):
+		username = self.get_object().username
+		if username == request.user.username:
+			kwargs["partial"] = True
+			return self.update(request, *args, **kwargs)
+		return Response({"error": "Unauthorized action!"}, status=status.HTTP_403_FORBIDDEN)
 
 @api_view(["POST"])
 def signupAccount(request):
@@ -57,6 +64,6 @@ class LoginView(APIView):
 		if not user:
 			return Reponse({
 				"error": "Login Failed"
-			}, status=HTTP_401_UNAUTHORIZED)
+			}, status=status.HTTP_401_UNAUTHORIZED)
 		token, _ = Token.objects.get_or_create(user=user)
 		return Response({"token": token.key})

@@ -13,10 +13,15 @@ from users import views
 
 urlpatterns = [
 	path(
-		route="signin",
-		name="signin",
+		route="signup",
+		name="signup",
 		view=views.signupAccount
-	)
+	),
+	path(
+		route="login",
+		name="login",
+		view=views.LoginView.as_view()
+	),
 ]
 
 router = SimpleRouter()

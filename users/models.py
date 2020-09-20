@@ -19,6 +19,7 @@ class AccountManager(BaseUserManager):
 			username=username,
 			phone_number=phone_number,
 		)
+		user.is_staff = True
 		user.set_password(password)
 		user.save(using=self._db)
 		return user
