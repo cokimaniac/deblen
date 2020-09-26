@@ -14,3 +14,9 @@ class DebtorSerializer(serializers.ModelSerializer):
 	class Meta:
 		fields = ["account", "phone_number", "full_name"]
 		model = Debtor
+
+	def create(self, validate_data):
+		password = validate_data.pop("password")
+		debtor = Debtor.objects.create(**validate_data)
+		debtor.save()
+		return debtor

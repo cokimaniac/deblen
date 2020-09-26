@@ -11,14 +11,14 @@ class Debtor(models.Model):
 	User account debtors.
 	"""
 	account = models.ForeignKey(Account, on_delete=models.CASCADE)
-	full_name = models.CharField(
-		verbose_name="Debtor full name",
-		max_length=80,
-		blank=False
-	)
 	phone_number = models.CharField(
 		verbose_name="Debtor phone number",
 		max_length=40,
+		blank=False
+	)
+	full_name = models.CharField(
+		verbose_name="Debtor full name",
+		max_length=80,
 		blank=False
 	)
 	email = models.EmailField(
@@ -30,3 +30,23 @@ class Debtor(models.Model):
 
 	def __str__(self):
 		return self.full_name
+
+class Ammount(models.Model):
+	"""
+	Debtor ammount of money that ows to lender.
+	"""
+	debtor = models.ForeignKey(Debtor, on_delete=models.CASCADE)
+	money = models.IntegerField(
+		verbose_name="Debtor ammount",
+		blank=False
+	)
+	loan_date = models.DateTimeField(
+		verbose_name="Date loan ammount",
+		auto_now_add=True
+	)
+	loan_payment_date = models.DateTimeField(
+		verbose_name="Date loan date payment",
+	)
+
+	def __str__(self):
+		return self.debtor.full_name

@@ -26,7 +26,7 @@ class AccountViewSet(ModelViewSet):
 	"""
 	Account View Set
 	"""
-	permission_classes = [IsAuthenticated,]
+	# permission_classes = [IsAuthenticated,]
 	serializer_class = AccountSerializer
 	queryset = Account.objects.all()
 	lookup_field = 'username'

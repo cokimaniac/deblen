@@ -119,6 +119,11 @@ REST_FRAMEWORK = {
     )
 }
 
+# Frontend whitelist app
+
+CORS_ORIGIN_WHITELIST = (
+    "localhost:3000"
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
