@@ -62,7 +62,7 @@ class LoginView(APIView):
 		user = authenticate(email=email, password=password)
 
 		if not user:
-			return Reponse({
+			return Response({
 				"error": "Login Failed"
 			}, status=status.HTTP_401_UNAUTHORIZED)
 		token, _ = Token.objects.get_or_create(user=user)

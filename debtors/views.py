@@ -2,6 +2,9 @@
 Debtor views.
 """
 
+#python
+from datetime import datetime
+
 #drf
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -11,10 +14,10 @@ from rest_framework.permissions import IsAuthenticated
 
 #models
 from users.models import Account
-from debtors.models import Debtor
+from debtors.models import Debtor, Ammount
 
 #serializers
-from debtors.serializers import DebtorSerializer
+from debtors.serializers import DebtorSerializer, AmmountSerializer
 
 class DebtorView(APIView):
 	"""
@@ -53,3 +56,32 @@ class DebtorDetailView(RetrieveAPIView):
 	serializer_class = DebtorSerializer
 	queryset = Debtor.objects.all()
 	permission_classes = [IsAuthenticated, ]
+
+class DebtorAmmountView(APIView):
+	"""
+	Debtor ammount view.
+	"""
+	def get(self, request, id):
+		ammounts = Ammount.objects.all().filter(debtor=id)
+		serializer = AmmountSerializer(ammounts, many=True)
+		return Response(serializer.data)
+
+	def post(self, request, id):
+		now = datetime.now()
+		next_payment = datetime(now.year, now.month+1, now.day, now.hour, now.minute, now.second, now.microsecond)
+		loan_payment_date = next_payment.strftime("%Y-%m-%d %H:%M:%S.%f")
+		data = {
+			"money": request.data.get("money"),
+			"loan_payment_date": loan_payment_date
+		}
+		serializer = AmmountSerializer(data=data)
+		if serializer.is_valid():
+			money = data.get("money")
+			debtor = Debtor.objects.get(id=id)
+			ammount = Ammount(debtor=debtor)
+			ammount.money = money
+			ammount.loan_payment_date = loan_payment_date
+			ammount.save()
+			return Response(serializer.data)
+		return Response({"errors": serializer.errors})
+
