@@ -20,4 +20,9 @@ urlpatterns = [
 		name="debtor",
 		view=views.DebtorView.as_view()
 	),
+	path(
+		route="<int:id>/ammounts/",
+		name="ammount",
+		view=views.AmmountView.as_view()
+	)
 ]

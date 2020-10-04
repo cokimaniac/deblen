@@ -44,8 +44,24 @@ class Ammount(models.Model):
 		verbose_name="Date loan ammount",
 		auto_now_add=True
 	)
-	loan_payment_date = models.DateTimeField(
+
+	payment_months = models.IntegerField(
+		verbose_name="Months will take debtor to pay full ammount of money",
+		default=1
+	)
+
+	expected_payment_date = models.DateTimeField(
 		verbose_name="Date loan date payment",
+	)
+
+	payment_status = models.BooleanField(
+		verbose_name="Payment status",
+		default=False
+	)
+
+	monthly_interest = models.IntegerField(
+		verbose_name="Monthly interest ammount of money",
+		default=0
 	)
 
 	def __str__(self):
