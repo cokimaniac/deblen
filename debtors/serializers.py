@@ -27,3 +27,4 @@ class AmmountSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		fields = ["id", "money", "expected_payment_date", "payment_months", "payment_status", "debtor"]
+		model = Ammount
